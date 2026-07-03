@@ -110,6 +110,11 @@ const confirmTool = tool(
   { cantonese_question: z.string().describe("如：系咪打畀阿女呀？") },
   async ({ cantonese_question }) => {
     console.log(`\n🔊 [问阿婆] ${cantonese_question}`);
+    // 跑批模式：AUTO_CONFIRM=1 时自动答「系」，不读 stdin（供 scripts/run-eval.ts 无人值守跑批）
+    if (process.env.AUTO_CONFIRM === "1") {
+      console.log("👵 阿婆答 (y=系 / n=唔系): y（AUTO_CONFIRM）");
+      return textResult("老人答：系");
+    }
     const ans = await askTerminal("👵 阿婆答 (y=系 / n=唔系): ");
     return textResult(ans.toLowerCase().startsWith("y") ? "老人答：系" : "老人答：唔系");
   },
