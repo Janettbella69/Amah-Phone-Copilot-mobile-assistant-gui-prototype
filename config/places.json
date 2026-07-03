@@ -1,0 +1,33 @@
+{
+  "_comment": "家人托管·常去地点表。demo 场景设定：老人住纽约曼哈顿唐人街附近（模拟定位）。老人说的地点先查本表，查不到再语音确认后搜索。",
+  "home": {
+    "aliases": ["屋企", "家"],
+    "address": "Confucius Plaza, Bowery, New York, NY 10002"
+  },
+  "places": [
+    {
+      "name": "唐人街",
+      "aliases": ["唐人街", "华埠", "中国城"],
+      "query": "Chinatown, Manhattan, New York"
+    },
+    {
+      "name": "菜市场",
+      "aliases": ["街市", "菜市场", "买餸"],
+      "query": "Hong Kong Supermarket, 157 Hester St, New York"
+    },
+    {
+      "name": "公园",
+      "aliases": ["公园", "晨运"],
+      "query": "Columbus Park, Mulberry St, New York"
+    },
+    {
+      "name": "女儿家",
+      "aliases": ["阿女屋企", "女儿家"],
+      "query": "Flushing, Queens, New York"
+    }
+  ],
+  "policy": {
+    "unknown_place": "confirm_then_search",
+    "output_style": "landmark_voice_no_map"
+  }
+}

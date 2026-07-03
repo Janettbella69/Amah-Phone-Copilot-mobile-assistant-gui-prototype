@@ -1,0 +1,14 @@
+{
+  "_comment": "家人托管·偏好预设。agent 替老人做选择时的依据——绝不把选择题抛给老人。",
+  "dialect": "cantonese",
+  "transit": {
+    "mode_priority": ["公交", "步行"],
+    "route_preference": "least_walking",
+    "avoid": ["需要换乘超过1次的方案"]
+  },
+  "interaction": {
+    "max_elderly_steps": 3,
+    "confirm_style": "复述一句 + 等『系/唔系』",
+    "on_failure": "提议打电话畀阿女（emergency_fallback）"
+  }
+}

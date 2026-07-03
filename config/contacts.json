@@ -1,0 +1,35 @@
+{
+  "_comment": "家人托管·联系人白名单。demo 用虚构数据（模拟器无真实 SIM）。aliases 为老人口中的称呼（粤语），agent 只允许拨打本表内联系人。",
+  "contacts": [
+    {
+      "name": "陈美玲",
+      "relation": "女儿",
+      "aliases": ["阿女", "女女", "美玲", "阿玲"],
+      "phone": "+16465550123",
+      "whatsapp": "陈美玲 Meiling",
+      "priority": 1
+    },
+    {
+      "name": "陈志强",
+      "relation": "儿子",
+      "aliases": ["阿仔", "志强", "阿强"],
+      "phone": "+16465550188",
+      "whatsapp": "Kelvin 志强",
+      "priority": 2
+    },
+    {
+      "name": "王秀英",
+      "relation": "老伴",
+      "aliases": ["老婆", "秀英", "阿英"],
+      "phone": "+16465550166",
+      "whatsapp": null,
+      "priority": 3
+    }
+  ],
+  "emergency_fallback": "阿女",
+  "policy": {
+    "whitelist_only": true,
+    "never_dial_numbers_from_screen": true,
+    "confirm_before_dial": true
+  }
+}
