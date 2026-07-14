@@ -70,7 +70,7 @@ Two hard rules baked into the design:
 
 ### Safety
 
-- **Whitelist-only dialing** — never dials a number read off the screen (blocks the most common elder-targeting scam).
+- **Whitelist-only dialing, enforced in code** — every `tel:` intent is digit-matched against `contacts.json` at the tool layer (`src/policy.ts`) before execution, so even a misled model cannot dial an unlisted number (blocks the most common elder-targeting scam). Prompt rules are guidance; this gate is deterministic.
 - **Confirmation gate** — every dial / navigation start is restated in Cantonese and waits for *yes*.
 - Family-managed config is the single source of truth for contacts, places, and preferences.
 

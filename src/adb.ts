@@ -135,12 +135,13 @@ export async function swipe(x1: number, y1: number, x2: number, y2: number, ms =
   await adb(["shell", "input", "swipe", String(x1), String(y1), String(x2), String(y2), String(ms)]);
 }
 
-const KEYCODES: Record<string, string> = {
+// as const（而非 Record<string,string>）：让 keyof 得到字面量联合，传错键名编译期就挡住
+const KEYCODES = {
   home: "KEYCODE_HOME",
   back: "KEYCODE_BACK",
   enter: "KEYCODE_ENTER",
   delete: "KEYCODE_DEL",
-};
+} as const;
 
 export async function pressKey(key: keyof typeof KEYCODES): Promise<void> {
   await adb(["shell", "input", "keyevent", KEYCODES[key]]);

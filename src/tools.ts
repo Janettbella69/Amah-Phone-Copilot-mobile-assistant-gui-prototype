@@ -6,6 +6,7 @@ import { tool, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk";
 import { z } from "zod";
 import readline from "node:readline";
 import * as adb from "./adb.js";
+import { checkDialWhitelist, loadWhitelistPhones } from "./policy.js";
 
 function textResult(text: string) {
   return { content: [{ type: "text" as const, text }] };
@@ -91,7 +92,14 @@ const launchIntentTool = tool(
     dataUri: z.string().optional(),
     pkg: z.string().optional().describe("限定目标包名，如 com.google.android.apps.maps"),
   },
-  async (opts) => textResult(await adb.launchIntent(opts)),
+  async (opts) => {
+    // 防诈骗白名单是代码层硬校验：模型即使被屏幕内容诱导，也拨不出白名单外的号码
+    const check = checkDialWhitelist(opts.dataUri, loadWhitelistPhones());
+    if (!check.allowed) {
+      return textResult(`已拦截：${check.reason}。请走失败兜底流程（提议打畀 emergency_fallback）。`);
+    }
+    return textResult(await adb.launchIntent(opts));
+  },
 );
 
 const speakTool = tool(
