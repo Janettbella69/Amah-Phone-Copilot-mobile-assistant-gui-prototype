@@ -124,7 +124,7 @@ npx tsx scripts/run-eval.ts "帮我打畀阿女" 5
 
 **Stage 1 — competition / on-device build:**
 - Swap the brain to **on-device Gemma 3n** (with Gemini as cloud fallback) — offline-capable, the answer to the "no SIM at the border" scenario.
-- Real **Cantonese ASR/TTS** (Stage 0 uses text to isolate the GUI-agent question).
+- Real **Cantonese ASR** (Stage 0 uses text input to isolate the GUI-agent question) and on-device TTS — elder-facing speech already goes through real Cantonese TTS (macOS `say`, zh_HK voice) as a placeholder for the on-device engine.
 - **Accessibility Service** instead of ADB (zero-config, survives reboot, `isAccessibilityTool` legitimacy for the elder-accessibility use case).
 - A **system-dialog auto-handler** — the biggest snag Stage 0 surfaced (permission popups, banners eating turns in long GUI flows).
 
@@ -132,7 +132,7 @@ npx tsx scripts/run-eval.ts "帮我打畀阿女" 5
 
 ## Honest limitations (Stage 0)
 
-- Input is **text**, not real speech (ASR/TTS is Stage 1).
+- Input is **text**, not real speech (ASR is Stage 1). Output speech is real Cantonese TTS on the host Mac (`say -v Sinji`); on-device TTS is Stage 1.
 - Brain is **Claude Opus 4.8**, not the on-device model.
 - Runs on an **emulator**, not a real phone; calls don't actually connect (no SIM), WeChat untested (emulator anti-fraud).
 - The navigation batch is N=3 (single runs are slow) — directional signal, not statistically rigorous.

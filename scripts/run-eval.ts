@@ -114,7 +114,7 @@ function runOnce(utterance: string, runIndex: number): Promise<RunResult> {
     let stderr = "";
     const child = spawn("npx", ["tsx", "src/agent.ts", utterance], {
       cwd: ROOT,
-      env: { ...process.env, AUTO_CONFIRM: "1" },
+      env: { ...process.env, AUTO_CONFIRM: "1", NO_TTS: "1" }, // 跑批不发声
       // stdin 忽略：AUTO_CONFIRM 已让确认门不读 stdin，不会挂起等输入
       stdio: ["ignore", "pipe", "pipe"],
     });

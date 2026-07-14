@@ -7,6 +7,7 @@ import { z } from "zod";
 import readline from "node:readline";
 import * as adb from "./adb.js";
 import { checkDialWhitelist, loadWhitelistPhones } from "./policy.js";
+import { speakCantonese } from "./tts.js";
 
 function textResult(text: string) {
   return { content: [{ type: "text" as const, text }] };
@@ -104,11 +105,12 @@ const launchIntentTool = tool(
 
 const speakTool = tool(
   "speak_to_elder",
-  "用粤语对老人说话（原型中打印到终端；正式版走 TTS）。所有对老人的输出必须走这里",
+  "用粤语对老人说话（宿主 Mac 的粤语 TTS 实时朗读 + 终端字幕；NO_TTS=1 时只出字幕）。所有对老人的输出必须走这里",
   { cantonese_text: z.string().describe("地道粤语口语，短句") },
   async ({ cantonese_text }) => {
     console.log(`\n🔊 [对阿婆讲] ${cantonese_text}\n`);
-    return textResult("已播报");
+    const spoken = await speakCantonese(cantonese_text);
+    return textResult(spoken ? "已语音播报" : "已播报（纯文字，TTS 未发声）");
   },
 );
 
@@ -118,6 +120,7 @@ const confirmTool = tool(
   { cantonese_question: z.string().describe("如：系咪打畀阿女呀？") },
   async ({ cantonese_question }) => {
     console.log(`\n🔊 [问阿婆] ${cantonese_question}`);
+    await speakCantonese(cantonese_question);
     // 跑批模式：AUTO_CONFIRM=1 时自动答「系」，不读 stdin（供 scripts/run-eval.ts 无人值守跑批）
     if (process.env.AUTO_CONFIRM === "1") {
       console.log("👵 阿婆答 (y=系 / n=唔系): y（AUTO_CONFIRM）");
